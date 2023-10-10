@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Gunakan fzf untuk memilih direktori
+selected_dir=$(find /home/alzr7th/dox/ /home/alzr7th/work/ /home/alzr7th/personal/ /home/alzr7th/projects/ /home/alzr7th/.local/bin /home/alzr7th/.config -type d | fzf )
+
+
+# Periksa apakah direktori yang dipilih tidak kosong
+if [ -n "$selected_dir" ]; then
+  # Ambil nama direktori (tanpa path)
+  dir_name=$(basename "$selected_dir")
+  # Nama jendela baru dengan awalan "wz_"
+  window_name="wz_$dir_name"
+  # Buat jendela baru di sesi Tmux dengan nama yang sesuai
+  tmux new-window -n "$window_name" -c "$selected_dir" "zsh -i"
+fi
+
